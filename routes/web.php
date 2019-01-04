@@ -17,13 +17,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
 
 
 //By grouping this will create a condition for the user then to access the link there must be a admin/ before
 //Middleware is a filter to classify the user is he/she a admin
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'],function (){
 
+	Route::get('/home', 'HomeController@index')->name('home');
 
 	Route::get('/post/create', [
 		'uses' => 'PostsController@create',
@@ -38,6 +39,41 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'],function (){
 		'as' => 'post.store'
 	]);
 
+	Route::get('/category/create', [
+		'uses' => 'CategoriesController@create',
+
+		'as' => 'category.create'
+	]);
+
+	Route::post('/category/store', [
+		'uses' => 'CategoriesController@store',
+
+		'as' => 'category.store'
+	]);
+
+	Route::get('categories', [
+		'uses' => 'CategoriesController@index',
+
+		'as' => 'categories'
+	]);
+
+	Route::get('/category/edit/{id}' ,[
+		'uses' => 'CategoriesController@edit',
+
+		'as' => 'category.edit'
+	]);
+
+	Route::get('/category/delete/{id}' ,[
+		'uses' => 'CategoriesController@destroy',
+
+		'as' => 'category.delete'
+	]);
+
+	Route::post('/category/update/{id}', [
+		'uses' => 'CategoriesController@update',
+
+		'as' => 'category.update'
+	]);
 
 });
 

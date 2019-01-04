@@ -3,6 +3,8 @@
 
 @section('content')
 
+    @include('admin.includes.error')
+
     <div class="panel panel-default">
         <div class="panel-heading">
             Create a new post
