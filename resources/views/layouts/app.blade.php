@@ -73,7 +73,36 @@
         </nav>
 
         <main class="py-4">
-            @yield('content')
+
+
+            <div class="container">
+                <div class="row">
+
+                    This if statement will show only when the user is login
+                    @if(Auth::check())
+
+                        <div class="col-lg-4">
+                            <li class="list-group-item">
+
+                                <a href="/home"> Home </a>
+
+                            </li>
+
+                            <li class="list-group-item">
+
+                                <a href="{{ route('post.create') }}"> Create new Post </a>
+
+                            </li>
+
+
+                        </div>
+                    @endif
+
+                    <div class="col-lg-8">
+                        @yield('content')
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 </body>
