@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Post;
+use Session;
 use Illuminate\Http\Request;
 
 class PostsController extends Controller
@@ -23,8 +26,8 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
-	    return view('admin.posts.create');
+        //send the data from database (category) to the html page (view)
+	    return view('admin.posts.create')->with('categories', Category::all());
     }
 
     /**
@@ -46,6 +49,28 @@ class PostsController extends Controller
 		    'content' => 'required'
 
 	    ]);
+
+		//Store the image to a folder and give it a name
+	    $featured = $request->featured;
+
+	    $featured_new_name = time().$featured->getClientOriginalName();
+
+	    $featured->move('uploads/posts', $featured_new_name);
+
+	    //Query the data into the database
+	    // !!! The laravel will not allow the user to push massive data to the database
+	    // !!! To allow this we have to modify the Post.php file ($fillable)
+
+	    $post = Post::create([
+	    	'title' => $request->title,
+		    'content' => $request->content,
+		    'featured' => 'uploads/posts/'.$featured_new_name,
+		    'category_id' => $request->category_id
+
+	    ]);
+
+	    Session::flash('success', 'Post created !!');
+
 
 	    dd($request->all());
 

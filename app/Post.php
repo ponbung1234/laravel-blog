@@ -15,4 +15,10 @@ class Post extends Model
 		return $this->belongsTo('App\category');
 
 	}
+
+
+
+	protected $fillable =[
+		'title','content','category_id','featured'
+	];
 }
